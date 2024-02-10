@@ -21,3 +21,9 @@ footer{
 .navbar{
     padding-top: 0;
 }
+
+#quoteBlock{
+    background-color: rgba(56, 92, 122, 0.7);
+    color: #FDEADB;
+    border-radius: 25px;
+}
