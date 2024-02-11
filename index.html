@@ -20,7 +20,17 @@
             }
             </script>
   <script type="module" src="./src/index.js" defer></script>
-
+  <template id="bookCard">
+    <div class="card" style="width: 16rem;">
+      <img class="card-img-top" >
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <h6 class="card-subtitle">
+        </h6>
+        <a href="#" class="btn btn-dark">Add to list</a>
+      </div>
+    </div>
+  </template>
 </head>
 
 <body>
@@ -47,13 +57,17 @@
         <div class="row text-end" id="author"></div>
       </div>
       <div class="col-md-7 gy-5 col-sm-auto gx-5 " id="contentBlock">
-        <div class="row p-3 text-center"><h3>Find your desired book!</h3></div>
-        <div class="row align-self-start p-3"><form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-req">
-          <button class="btn btn-outline-dark" type="submit" id="search-btn">Search</button>
-        </form></div>
+        <div class="row p-3 text-center">
+          <h3>Find your desired book!</h3>
+        </div>
+        <div class="row align-self-start p-3">
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-req">
+            <button class="btn btn-outline-dark" type="submit" id="search-btn">Search</button>
+          </form>
+        </div>
         <div class="row align-self-stretch p-3" id="searchResult">
-          
+
         </div>
       </div>
     </div>
