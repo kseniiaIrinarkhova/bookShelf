@@ -36,20 +36,26 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
           <a class="nav-link" href="#">My List</a>
         </div>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-dark" type="submit">Search</button>
-        </form>
+
       </div>
     </div>
   </nav>
   <main class="container-xl">
-    <div class="row gx-4 main-block align-items-center">
-      <div class="col-md-5 me-auto" id="quoteBlock">
+    <div class="row gx-4 g-2 main-block ">
+      <div class="col-md-5 me-auto align-self-center" id="quoteBlock">
         <div class="row" id="quote"></div>
         <div class="row text-end" id="author"></div>
       </div>
-      <div class="col-md-7 col-sm-auto" id="contentBlock"> dfasdf</div>
+      <div class="col-md-7 gy-5 col-sm-auto gx-5 " id="contentBlock">
+        <div class="row p-3 text-center"><h3>Find your desired book!</h3></div>
+        <div class="row align-self-start p-3"><form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-dark" type="submit" id="bookSearch">Search</button>
+        </form></div>
+        <div class="row align-self-stretch p-3" id="searchResult">
+          
+        </div>
+      </div>
     </div>
   </main>
   <footer class="container-xl text-center fixed-bottom">
