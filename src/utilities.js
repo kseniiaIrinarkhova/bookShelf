@@ -1,4 +1,4 @@
-function clearBookCards(parentElement) {
+function clearElement(parentElement) {
     while (parentElement.firstElementChild) {
         parentElement.removeChild(parentElement.firstElementChild)
     }
@@ -16,5 +16,10 @@ function createCards(books, parentElement) {
     });
 }
 
-
-export {clearBookCards, createCards}
+function changeMainblock(parentElement, templateName){
+    clearElement(parentElement);
+    const template = document.getElementById(templateName);
+    const clone = template.content.cloneNode(true);
+    parentElement.append(clone);
+}
+export {clearElement, createCards,changeMainblock}

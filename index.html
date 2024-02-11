@@ -28,11 +28,30 @@
       <div class="card-body">
         <h5 class="card-title"></h5>
         <h6 class="card-subtitle"></h6>
-        <!--<a href="#" class="btn btn-dark">Add to list</a>-->
       </div>
       <div class="card-img-overlay ">
         <div class="border p-3 mb-5 rounded float-end listAdd" style="width: 25%;">+</div>
       </div>
+    </div>
+  </template>
+  <template id="main-tmp">
+    <div class="row p-3 text-center">
+      <h3>Find your desired book!</h3>
+    </div>
+    <div class="row align-self-start p-3">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-req">
+        <button class="btn btn-outline-dark" type="submit" id="search-btn">Search</button>
+      </form>
+    </div>
+    <div class="row align-self-stretch p-3 px-5 gx-5 justify-content-around" id="searchResult"></div>
+    </div>
+  </template>
+  <template id="myList-tmp">
+    <div class="row p-3 text-center">
+      <h3>My favourite books</h3>
+    </div>
+    <div class="row align-self-stretch p-3 px-5 gx-5 justify-content-around" id="listBody"></div>
     </div>
   </template>
 </head>
@@ -47,8 +66,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav me-auto">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-          <a class="nav-link" href="#">My List</a>
+          <a class="nav-link active" aria-current="page" href="#" id="home">Home</a>
+          <a class="nav-link" href="#" id="myList">My List</a>
         </div>
 
       </div>
@@ -70,10 +89,8 @@
             <button class="btn btn-outline-dark" type="submit" id="search-btn">Search</button>
           </form>
         </div>
-        <div class="row align-self-stretch p-3 px-5 gx-5 justify-content-around" id="searchResult">
-
+        <div class="row align-self-stretch p-3 px-5 gx-5 justify-content-around" id="searchResult"></div>
         </div>
-      </div>
     </div>
   </main>
   <footer class="container-xl text-center fixed-bottom">

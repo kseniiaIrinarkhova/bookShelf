@@ -8,6 +8,7 @@ import * as Utilities from "./utilities.js";
 const quoteBlock = document.getElementById("quoteBlock")
 const searchBtn = document.getElementById("search-btn")
 const bookCards = document.getElementById("searchResult");
+const navLinks = document.querySelector("nav");
 
 // Set config defaults when creating the instance_quote
 const instance_quote = axios.create();
@@ -15,7 +16,6 @@ const instance_lib = axios.create();
 
 // Alter defaults after instance_quote has been created
 instance_quote.defaults.headers.common['x-api-key'] = Config_private.API_KEY_Q;
-
 
 
 (
@@ -31,10 +31,9 @@ function getQutation() {
 
 searchBtn.addEventListener('click', searchBooks);
 
-
 function searchBooks(event){
     event.preventDefault();
-    Utilities.clearBookCards(bookCards);
+    Utilities.clearElement(bookCards);
     const q = document.getElementById("search-req").value.trim().replaceAll(" ","+");
     if(String(q).length){
     const url = `${config.search_lib_url}?q=${q}&fields=${config.search_filter}&limit=3`
@@ -44,4 +43,21 @@ function searchBooks(event){
     })
 }
 }
+
+navLinks.addEventListener("click",(event)=>{
+event.preventDefault();
+console.log(event.target.id)
+    const contentBlock = document.getElementById("contentBlock");
+switch (event.target.id) {
+    case "myList":
+        Utilities.changeMainblock(contentBlock, "myList-tmp")
+        break;
+
+    default:
+        Utilities.changeMainblock(contentBlock, "main-tmp")
+        break;
+}
+
+});
+
 
