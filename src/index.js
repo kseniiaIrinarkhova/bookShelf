@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as Config_private from "./config_private.js";
 import * as config from "./config.js";
+import * as Utilities from "./utilities.js";
 
 /********************************************************* */
 /**DOM elements */
@@ -33,29 +34,14 @@ searchBtn.addEventListener('click', searchBooks);
 
 function searchBooks(event){
     event.preventDefault();
-    clearBookCards(bookCards);
+    Utilities.clearBookCards(bookCards);
     const q = document.getElementById("search-req").value.trim().replaceAll(" ","+");
     if(String(q).length){
     const url = `${config.search_lib_url}?q=${q}&fields=${config.search_filter}&limit=3`
     instance_lib.get(url)
     .then((response)=>{
-        console.log(response.data)
-        const cardTemplate = document.getElementById("bookCard");
-        Array.prototype.forEach.call(response.data.docs,(book)=>{
-            const cardClone = cardTemplate.content.cloneNode(true);
-            cardClone.querySelector('img').setAttribute('src', `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`);
-            cardClone.querySelector('img').setAttribute('alt', `${book.title} ${book.author_name[0].toString()}`);
-            cardClone.querySelector(".card-title").textContent = book.title
-            cardClone.querySelector(".card-subtitle").textContent = book.author_name[0].toString();
-            bookCards.append(cardClone);
-        });
-        
+        Utilities.createCards(response.data.docs, bookCards);
     })
 }
 }
 
-function clearBookCards(parentElement){
-    while (parentElement.firstElementChild){
-        parentElement.removeChild(parentElement.firstElementChild)
-    }
-}
