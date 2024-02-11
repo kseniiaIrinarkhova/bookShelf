@@ -34,14 +34,19 @@ searchBtn.addEventListener('click', searchBooks);
 function searchBooks(event){
     event.preventDefault();
     const q = document.getElementById("search-req").value.trim().replaceAll(" ","+");
-    const url = `${config.search_lib_url}?q=${q}&fields=${config.search_filter}`
+    const url = `${config.search_lib_url}?q=${q}&fields=${config.search_filter}&limit=3`
     instance_lib.get(url)
     .then((response)=>{
         console.log(response.data)
         const cardTemplate = document.getElementById("bookCard");
-        const cardClone = cardTemplate.content.cloneNode(true);
-        cardClone.querySelector(".card-title").textContent = response.data.docs[0].title
-        cardClone.querySelector(".card-subtitle").textContent = response.data.docs[0].author_name[0].toString();
-bookCards.append(cardClone);
+        Array.prototype.forEach.call(response.data.docs,(book)=>{
+            const cardClone = cardTemplate.content.cloneNode(true);
+
+            cardClone.querySelector('img').setAttribute('src', `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`);
+            cardClone.querySelector(".card-title").textContent = book.title
+            cardClone.querySelector(".card-subtitle").textContent = book.author_name[0].toString();
+            bookCards.append(cardClone);
+        });
+        
     })
 }
