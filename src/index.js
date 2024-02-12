@@ -36,7 +36,7 @@ function searchBooks(event){
     Utilities.clearElement(bookCards);
     const q = document.getElementById("search-req").value.trim().replaceAll(" ","+");
     if(String(q).length){
-    const url = `${config.search_lib_url}?q=${q}&fields=${config.search_filter}&limit=3`
+        const url = `${config.lib_url}/search.json?q=${q}&fields=${config.search_filter}&limit=3`
     instance_lib.get(url)
     .then((response)=>{
         Utilities.createCards(response.data.docs, bookCards);
@@ -46,18 +46,46 @@ function searchBooks(event){
 
 navLinks.addEventListener("click",(event)=>{
 event.preventDefault();
-console.log(event.target.id)
     const contentBlock = document.getElementById("contentBlock");
 switch (event.target.id) {
     case "myList":
         Utilities.changeMainblock(contentBlock, "myList-tmp")
+        .then((res)=>{
+            getMyList();
+        })
         break;
-
+    case "home":
+        Utilities.changeMainblock(contentBlock, "main-tmp");
+        break;
     default:
-        Utilities.changeMainblock(contentBlock, "main-tmp")
         break;
 }
-
 });
 
 
+function getMyList(){
+    instance_lib.get(`${config.lib_url}/people/${config.libAPIUser}/lists.json`)
+    .then((res)=>{
+
+        console.log(res.data.entries[0])
+        instance_lib.get(`${config.lib_url}${res.data.entries[0].url}/seeds.json`)
+        .then((resp)=>{
+            console.log(resp.data)
+            
+            Utilities.createCards(getBooksInfo(resp.data.entries), document.getElementById("listBody"));
+        })
+    })
+}
+
+function getBooksInfo(listEntries) {
+    let booksArray=[];
+    Array.prototype.forEach.call(listEntries,(entry)=>{
+        booksArray.push({
+            "title": entry.title,
+            "author_name":[""],
+            "picture_url": entry.picture.url,
+            "cover_i": "14444481"
+        })
+    })
+return booksArray;
+}

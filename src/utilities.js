@@ -16,7 +16,7 @@ function createCards(books, parentElement) {
     });
 }
 
-function changeMainblock(parentElement, templateName){
+async function changeMainblock(parentElement, templateName){
     clearElement(parentElement);
     const template = document.getElementById(templateName);
     const clone = template.content.cloneNode(true);
