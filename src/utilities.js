@@ -33,7 +33,14 @@ function createCards(books, parentElement) {
         cardClone.querySelector(".card-subtitle").textContent = book.author_name[0].toString();
         cardClone.querySelector(".key").textContent = book.key
         //add card to parent element
-        parentElement.append(cardClone);
+        //delete redundancy because of FAKE API
+        let cards = parentElement.querySelectorAll(".key")
+        let flag = true
+        Array.prototype.forEach.call(cards,(card)=>{
+            if (card.textContent == book.key)
+            flag = false
+        });
+        if(flag) parentElement.append(cardClone);
     });
 }
 

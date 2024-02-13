@@ -42,6 +42,7 @@ searchBtn.addEventListener('click', searchBooks);
  * @param {object} event 
  */
 function searchBooks(event) {
+    localStorage.clear()
     event.preventDefault();
     //get parent object
     const bookCards = document.getElementById("searchResult");
@@ -106,6 +107,34 @@ function getMyList() {
                     Utilities.createCards(Utilities.getBooksInfo(resp.data.entries), document.getElementById("listBody"));
                 })
         })
+    //////////////////////////////////////////////////
+    ////ADD books to list from FAKE storage
+    if (localStorage.getItem("myList") !== null) {
+        const myList = JSON.parse(localStorage.getItem("myList"))
+        for (const id of myList) {
+            //find book key:
+            instance_lib.get(`${config.fake_lib_url}?id=${id.id}`)
+                .then((res) => {
+                    instance_lib.get(`${config.lib_url}${res.data[0].name}.json`)
+                        .then((res) => {
+
+                            let bookArray = []
+                            bookArray.push(
+                                {
+                                    "title": res.data.title,
+                                    "author_name": [""],
+                                    "cover_i": res.data.covers[0],
+                                    "key": res.data.key
+                                }
+                            )
+                            Utilities.createCards(bookArray, document.getElementById("listBody"));
+                        })
+                        .catch((err) => { throw err })
+                })
+                .catch((err) => { console.log(err) })
+        }
+    }
+
 }
 
 
@@ -119,37 +148,62 @@ async function cardClick(event) {
 
     if (event.target.classList.contains("listAdd")) {
         event.preventDefault()
-        //find book key that we want to add to library
+        /* //find book key that we want to add to library
+         const requestBody = {
+             add: [
+                 { key: Utilities.getKey(event.target) }
+             ]
+         }
+         //find the the first list from user
+         instance_lib.get(`${config.lib_url}/people/${config.libAPIUser}/lists.json`)
+             .then((res) => {
+                 //create url for adding book
+                 const url = `${config.lib_url}${res.data.entries[0].url}/seeds.json`
+                 console.log(url)
+                 //try to post our book to list
+                 fetch(url,
+                     {
+                         method: "POST",
+                         headers: {
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'Access-Control-Allow-Origin': '*',
+                             'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS'
+                         },
+                         body: JSON.stringify(requestBody),
+                     })
+                     .then((res) => {
+                         console.log(res.json())
+                     })
+                     .catch((err) => { throw err });
+             })
+             .catch((err) => {
+                 alert("Cannot add book to list due to CORS error")
+                 throw err;
+             })
+             .catch((err) => { console.log(err) });*/
+
+        ////////////////////////////////////////////////////////////////////////////
+        //FAKE POST simmulation
         const requestBody = {
-            add: [
-                { key: Utilities.getKey(event.target) }
-            ]
+            name: Utilities.getKey(event.target)
         }
-        //find the the first list from user
-        instance_lib.get(`${config.lib_url}/people/${config.libAPIUser}/lists.json`)
+        instance_lib.post(config.fake_lib_url, requestBody)
             .then((res) => {
-                //create url for adding book
-                const url = `${config.lib_url}${res.data.entries[0].url}/seeds.json`
-                //try to post our book to list
-                fetch(url,
-                    {
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(requestBody),
-                    })
-                    .then((res) => {
-                        console.log(res.json())
-                    })
-                    .catch((err) => { throw err });
+
+                console.log(res.data)
+                localStorage.setItem(res.data.id, res.data.name);
+                let idArray = [];
+                if (localStorage.getItem("myList") !== null) {
+                    idArray = JSON.parse(localStorage.getItem("myList"))
+                }
+                idArray.push({ id: res.data.id })
+                localStorage.setItem("myList", JSON.stringify(idArray))
+
+                console.log(localStorage.getItem(res.data.id))
+                console.log(JSON.parse(localStorage.getItem("myList")))
             })
-            .catch((err) => {
-                alert("Cannot add book to list due to CORS error")
-                throw err;
-            })
-            .catch((err) => { console.log(err) });
+            .catch((err) => { console.log(err) })
     }
 }
 
