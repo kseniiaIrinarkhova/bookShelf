@@ -1,5 +1,5 @@
 # Distinctiveness and Complexity
-Book shelf is an application that shows you 3 books from open Library according to your search request amd list of test user from openLibrary
+Book shelf is an application that shows you 3 books from open Library according to your search request amd list of test user from openLibrary. As currently List add seeds POST method doesn't work from localhost adding to list is simulated by using [RESTFUL-API](https://restful-api.dev/) and post book key as a 'name' property of restful-api provided object.
 
 # Technical documentation of the project
 ## Code specification
@@ -21,7 +21,7 @@ File with helper functions
 3. Add to API_KEY_Q variable API Key from [API ninjas](https://api-ninjas.com/). If you do not have an accont you could create it for free.
 ## User guide
 On the main page user is able to search books in OpenLibrary using searsh form.
-User could add book to list by clicking on **+** button on book card. Currently user see an alert that shows issue with POST request
+User could add book to list by clicking on **+** button on book card. 
 User could see current list of favorite books of `apiusershelli` user in openLibrary by clicking "My List" navigation menu.
 User may see different quote by refreshing the page.
 

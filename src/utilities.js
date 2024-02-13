@@ -20,12 +20,12 @@ function createCards(books, parentElement) {
         //make deed copy of template
         const cardClone = cardTemplate.content.cloneNode(true);
         //we could have eather cover_i or picture_url
-        if("cover_i" in book){
-        cardClone.querySelector('img').setAttribute('src', `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`);
-        cardClone.querySelector('img').setAttribute('alt', `${book.title} ${book.author_name[0].toString()}`);
+        if ("cover_i" in book) {
+            cardClone.querySelector('img').setAttribute('src', `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`);
+            cardClone.querySelector('img').setAttribute('alt', `${book.title} ${book.author_name[0].toString()}`);
         }
-        else{
-            const url = `https:${book.picture_url}`.replace('-S','-M')
+        else {
+            const url = `https:${book.picture_url}`.replace('-S', '-M')
             cardClone.querySelector('img').setAttribute('src', url);
             cardClone.querySelector('img').setAttribute('alt', `${book.title}`);
         }
@@ -33,21 +33,27 @@ function createCards(books, parentElement) {
         cardClone.querySelector(".card-subtitle").textContent = book.author_name[0].toString();
         cardClone.querySelector(".key").textContent = book.key
         //add card to parent element
+
         //delete redundancy because of FAKE API
+        ///get all existing cards with <div> with key class
         let cards = parentElement.querySelectorAll(".key")
+        //set the check flag variable
         let flag = true
-        Array.prototype.forEach.call(cards,(card)=>{
+        //loop througt all DOM elements
+        Array.prototype.forEach.call(cards, (card) => {
+            //if key that in textContent is the same that we want to save
             if (card.textContent == book.key)
-            flag = false
+                //change the flag to false (so we don't add new card the same as existed to DOM)
+                flag = false
         });
-        if(flag) parentElement.append(cardClone);
+        if (flag) parentElement.append(cardClone);
     });
 }
 
 /***
  * Function that change main DOM structure 
  */
-async function changeMainblock(parentElement, templateName){
+async function changeMainblock(parentElement, templateName) {
     //clear parent element
     clearElement(parentElement);
     //find template of the main block
@@ -85,4 +91,4 @@ function getBooksInfo(listEntries) {
     return booksArray;
 }
 
-export {clearElement, createCards,changeMainblock,getKey,getBooksInfo}
+export { clearElement, createCards, changeMainblock, getKey, getBooksInfo }

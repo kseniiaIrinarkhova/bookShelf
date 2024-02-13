@@ -109,25 +109,25 @@ function getMyList() {
         })
     //////////////////////////////////////////////////
     ////ADD books to list from FAKE storage
+    //create cards from the fake list. Check that we added something there
     if (localStorage.getItem("myList") !== null) {
+        //list contains object with id:'ID from fake API'
         const myList = JSON.parse(localStorage.getItem("myList"))
+        //loop through all objects
         for (const id of myList) {
-            //find book key:
+            //find book key in fake API:
             instance_lib.get(`${config.fake_lib_url}?id=${id.id}`)
                 .then((res) => {
+                    //we saved book key in name property, use it and find the real information about the book in openLibrary API
                     instance_lib.get(`${config.lib_url}${res.data[0].name}.json`)
                         .then((res) => {
-
-                            let bookArray = []
-                            bookArray.push(
-                                {
-                                    "title": res.data.title,
-                                    "author_name": [""],
-                                    "cover_i": res.data.covers[0],
-                                    "key": res.data.key
-                                }
-                            )
-                            Utilities.createCards(bookArray, document.getElementById("listBody"));
+                            //create a cards one by one
+                            Utilities.createCards([{
+                                "title": res.data.title,
+                                "author_name": [""],
+                                "cover_i": res.data.covers[0],
+                                "key": res.data.key
+                            }], document.getElementById("listBody"));
                         })
                         .catch((err) => { throw err })
                 })
@@ -141,7 +141,7 @@ function getMyList() {
 /**
  * Function that add book to list
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * Doesn't work POST request
+ * Doesn't work POST request in openLibrary API, changed for FAKE API 
  * @param {object} event 
  */
 async function cardClick(event) {
@@ -184,24 +184,24 @@ async function cardClick(event) {
              .catch((err) => { console.log(err) });*/
 
         ////////////////////////////////////////////////////////////////////////////
-        //FAKE POST simmulation
+        //FAKE POST to openLibrary List simmulation
+        //////////////////////////////////////////////////////
+        //create a POST body
         const requestBody = {
             name: Utilities.getKey(event.target)
         }
+        //use a fake API for posting data
         instance_lib.post(config.fake_lib_url, requestBody)
             .then((res) => {
-
-                console.log(res.data)
-                localStorage.setItem(res.data.id, res.data.name);
+                //save in local storage 
                 let idArray = [];
                 if (localStorage.getItem("myList") !== null) {
                     idArray = JSON.parse(localStorage.getItem("myList"))
                 }
+                //we need a list of id that are provided from fake API, so store them in array
                 idArray.push({ id: res.data.id })
+                //if we already have such object in Local storage - just add another ID to array, if not - create a new one
                 localStorage.setItem("myList", JSON.stringify(idArray))
-
-                console.log(localStorage.getItem(res.data.id))
-                console.log(JSON.parse(localStorage.getItem("myList")))
             })
             .catch((err) => { console.log(err) })
     }
